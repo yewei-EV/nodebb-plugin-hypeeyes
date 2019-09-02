@@ -1,0 +1,7 @@
+import { User } from '../entities/user/user';
+
+export function getUserField(uid: number, field: string): Promise<any>;
+export function isAdministrator(uid: number): Promise<boolean>;
+export function isGlobalModerator(uid: number): Promise<boolean>;
+export function isModeratorOfAnyCategory(uid: number): Promise<boolean>;
+export function getUserData(uid: number): Promise<User>;

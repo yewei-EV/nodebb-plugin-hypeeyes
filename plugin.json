@@ -1,0 +1,6 @@
+{
+  "library": "dist",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" }
+  ]
+}
