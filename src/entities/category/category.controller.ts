@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category';
 
-@Controller('category')
+@Controller('categories')
 export class CategoryController {
 
   constructor(private categoryService: CategoryService) {
@@ -14,7 +14,7 @@ export class CategoryController {
   }
 
   @Get('/:cid/topics')
-  async getTopicIds(@Param('cid') cid: number) {
+  async getTopicIds(@Param('cid') cid: number): Promise<number[]> {
     return await this.categoryService.getTopicIds(cid, 0, 4);
   }
 }

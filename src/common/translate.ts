@@ -15,6 +15,9 @@ export function translateIntercept(req: Request, resp: Response, next: NextFunct
     if (this.req.originalUrl.indexOf('hypeeyes') < 0) {
       return oldSend.apply(this, [body]);
     }
+    if (!body || body.length <= 0 || body.indexOf('[[') < 0) {
+      return oldSend.apply(this, [body]);
+    }
     translator.translate(body, language, (translated: string) => {
       const unescaped = translator.unescape(translated);
       return oldSend.apply(response, [unescaped]);

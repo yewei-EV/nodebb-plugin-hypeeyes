@@ -23,4 +23,8 @@ export class UserService {
     principal.isEmailConfirmSent = user.isEmailConfirmSent;
     return principal;
   }
+  async getUserById(uid: number): Promise<User> {
+    const user = await this.userLib.getUserData(uid);
+    return User.convert(user);
+  }
 }

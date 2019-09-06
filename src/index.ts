@@ -8,7 +8,7 @@ import { UserService } from './entities/user/user.service';
 import { translateIntercept } from './common/translate';
 export async function init(params: {router: Router, app: Router}, callback: () => {}) {
   const router: Router = Router();
-  params.router.use('/hypeeyes/', router);
+  params.router.use('/hypeeyes/api/', router);
   params.app.use(translateIntercept);
   const app = await NestFactory.create(AppModule, new ExpressAdapter(router));
   await app.useGlobalInterceptors(new UserInterceptor(app.get(UserService)));

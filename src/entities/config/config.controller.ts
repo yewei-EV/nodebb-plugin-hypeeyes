@@ -1,13 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ConfigService } from './config.service';
 
-@Controller('config')
+@Controller('configs')
 export class ConfigController {
 
   constructor(private configService: ConfigService) {}
 
   @Get()
-  getConfig() {
-    return this.configService.getConfig();
+  async getConfig(@Req() req) {
+    return await this.configService.getConfig(req);
   }
 }
