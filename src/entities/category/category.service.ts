@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as categoryLib from '@bbs/categories';
 import { Category } from './category';
+import {Pageable} from "../../common/pageable";
 
 @Injectable()
 export class CategoryService {
@@ -16,5 +17,9 @@ export class CategoryService {
 
   public getTopicIds(cid: number, offset: number, pageSize: number): Promise<number[]> {
     return this.categoryLib.getTopicIds({ cid, start: offset, stop: pageSize + offset - 1 });
+  }
+
+  public getCategoryTopics(options: {cid: number, uid: number} & Pageable) {
+    return this.categoryLib.getCategoryTopics(options);
   }
 }
