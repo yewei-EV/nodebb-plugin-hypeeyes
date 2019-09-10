@@ -1,7 +1,7 @@
 import { UserPrivilege } from '../privilege/user-privilege';
 
 export class Principal {
-  uid: number;
+  uid: number = 0;
   unreadData: {};
   isAdmin: boolean;
   isGlobalMod: boolean;
@@ -10,4 +10,8 @@ export class Principal {
   email: string;
   emailConfirmed: boolean;
   isEmailConfirmSent: boolean;
+
+  isValid() {
+    return this.uid !== 0;
+  }
 }
