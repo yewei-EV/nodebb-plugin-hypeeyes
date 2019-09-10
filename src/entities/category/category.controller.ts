@@ -1,7 +1,11 @@
-import {Controller, Get, Param, Query} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category';
-import {Pageable} from "../../common/pageable";
+import { Pageable, SortType } from "../../common/pageable";
+import { CurPrincipal } from '../user/principal.decorator';
+import { Principal } from '../user/principal';
+import { Topic } from '../topic/topic';
+import { exhaustiveTypeException } from 'tsconfig-paths/lib/try-path';
 
 @Controller('categories')
 export class CategoryController {
@@ -9,17 +13,23 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {
   }
 
-  @Get('')
+  @Get('/:cid')
   async get(@Query('start') start: number,
             @Query('stop') stop: number,
-            @Query('sort') sort: string,
-            @Query('cid') cid: number,
-            @Query('uid') uid: number,
+            @Query('sort') sort: SortType,
+            @Param('cid') cid: number,
+            @CurPrincipal() principal: Principal,
   ) {
     const pageable = new Pageable();
-    pageable.start = start;
-    pageable.stop = stop;
-    return await this.categoryService.getCategoryTopics({cid, uid, ...pageable});
+    pageable.start = +start;
+    pageable.stop = +stop;
+    if (sort != SortType['most-posts']) {
+      sort = SortType['most-votes'];
+    }
+    pageable.sort = sort;
+    const uid = principal.uid;
+    const result: {topics: Topic[], nextStart: number} = await this.categoryService.getCategoryTopics({cid, uid, ...pageable});
+    return result.topics;
   }
 
   @Get('/all')
