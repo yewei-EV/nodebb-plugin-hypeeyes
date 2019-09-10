@@ -32,7 +32,7 @@ export class CategoryController {
     return result.topics;
   }
 
-  @Get('/all')
+  @Get('/')
   async getAll(): Promise<Category[]> {
     return await this.categoryService.getAllCategories();
   }
