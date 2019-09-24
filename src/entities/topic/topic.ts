@@ -1,1 +1,5 @@
-export class Topic {}
+export class Topic {
+  title: string;
+  slug: string;
+  titleRaw: string;
+}

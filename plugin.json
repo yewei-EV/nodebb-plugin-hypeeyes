@@ -1,6 +1,13 @@
 {
   "library": "dist",
   "hooks": [
-    { "hook": "static:app.load", "method": "init" }
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:parse.post", "method": "wordFilter.parse", "priority": 1 },
+    { "hook": "filter:parse.aboutme", "method": "wordFilter.parseRaw" },
+    { "hook": "filter:parse.signature", "method": "wordFilter.parseSignature" },
+    { "hook": "filter:topic.create", "method": "wordFilter.parseTopic" },
+    { "hook": "filter:topic.edit", "method": "wordFilter.parseTopic" },
+    { "hook": "filter:tags.filter", "method": "wordFilter.filterTags" },
+    { "hook": "filter:messaging.getTeaser", "method": "wordFilter.getTeaser" }
   ]
 }

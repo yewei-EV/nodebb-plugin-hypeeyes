@@ -6,6 +6,11 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { UserInterceptor } from './entities/user/user.interceptor';
 import { UserService } from './entities/user/user.service';
 import { translateIntercept } from './common/translate';
+
+import { WordFilter } from './sensitive-words/word-filter';
+
+export const wordFilter = new WordFilter();
+
 export async function init(params: {router: Router, app: Router}, callback: () => {}) {
   const router: Router = Router();
   params.router.use('/hypeeyes/api/', router);

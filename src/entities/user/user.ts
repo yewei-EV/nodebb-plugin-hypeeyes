@@ -3,6 +3,7 @@ export class User {
   email: string;
   emailConfirmed: boolean;
   isEmailConfirmSent: boolean;
+  signature: string;
 
   static convert(user) {
     user.emailConfirmed = user['email:confirmed'] === 1;
