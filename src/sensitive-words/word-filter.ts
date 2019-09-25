@@ -20,11 +20,12 @@ export class WordFilter {
     return this.wordFilter;
   }
 
-  parse(data: { postData: Post }, callback) {
-    if (!data || !data.postData || !data.postData.content) {
+  parse(data: { post: Post }, callback) {
+    console.log(data);
+    if (!data || !data.post || !data.post.content) {
       return callback(null, data);
     }
-    data.postData.content = WordFilter.getWordFilter().parseSensitiveWord(data.postData.content);
+    data.post.content = WordFilter.getWordFilter().parseSensitiveWord(data.post.content);
     callback(null, data);
   }
 
