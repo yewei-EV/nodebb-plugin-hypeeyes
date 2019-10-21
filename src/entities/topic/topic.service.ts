@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as topicLib from '@bbs/topics';
 import { Topic } from './topic';
+import { Post } from '../post/post';
 
 @Injectable()
 export class TopicService {
@@ -20,7 +21,7 @@ export class TopicService {
     return this.topicLib.getMainPids(ids);
   }
 
-  public test() {
-    return 'test';
+  public getMainPosts(mainPids: number[], uid: number): Promise<Post[]> {
+    return this.topicLib.getMainPosts(mainPids, uid);
   }
 }

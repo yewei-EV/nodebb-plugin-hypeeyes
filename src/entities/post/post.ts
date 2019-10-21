@@ -1,3 +1,33 @@
 export class Post {
+  private _firstImg: string;
+  private _fistCalendar: Date;
   content: string;
+  tid: number;
+  get firstImg(): string {
+    let img = undefined;
+    if (!this._firstImg) {
+      const content = this.content;
+      const regexp = new RegExp(/<img[ ]+src="([^"]*)"/);
+      const result = regexp.exec(content);
+      if (result && result.length > 1) {
+        img = result[1];
+        this._firstImg = img;
+      }
+    } else {
+      img = this._firstImg;
+    }
+    return img;
+  }
+
+  get fistCalendar(): Date {
+    if (!this._fistCalendar) {
+      const content = this.content;
+      const regexp = new RegExp(/local, ([0-9]+),/);
+      const result = regexp.exec(content);
+      if (result && result.length > 1) {
+        this._fistCalendar = new Date(+result[1]);
+      }
+    }
+    return this._fistCalendar;
+  }
 }
