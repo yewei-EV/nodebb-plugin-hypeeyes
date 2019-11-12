@@ -21,7 +21,6 @@ export class WordFilter {
   }
 
   parse(data: { post: Post }, callback) {
-    console.log(data);
     if (!data || !data.post || !data.post.content) {
       return callback(null, data);
     }

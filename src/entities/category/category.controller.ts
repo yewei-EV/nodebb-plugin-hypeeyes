@@ -53,7 +53,6 @@ export class CategoryController {
         }
       }
     }
-    console.log(mainPosts.length, topics.length);
     return topics;
   }
 
