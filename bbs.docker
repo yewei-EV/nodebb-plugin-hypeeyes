@@ -4,7 +4,7 @@ COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
 COPY hypeeyes-plugin/package.json nodebb-plugin-hypeeyes/package.json
 RUN cd hypeeyes-forum && npm install --only=prod
 RUN cd nodebb-plugin-hypeeyes && npm install
-COPY /etc/config.json hypeeyes-forum/config.json
+COPY config.json hypeeyes-forum/config.json
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-plugin nodebb-plugin-hypeeyes
 COPY hypeeyes-theme nodebb-theme-hypeeyes
