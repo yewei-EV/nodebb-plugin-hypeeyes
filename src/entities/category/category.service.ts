@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as categoryLib from '@bbs/categories';
 import { Category } from './category';
 import {Pageable} from "../../common/pageable";
+import {Topic} from "../topic/topic";
 
 @Injectable()
 export class CategoryService {

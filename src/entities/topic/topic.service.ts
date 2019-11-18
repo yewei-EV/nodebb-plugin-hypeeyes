@@ -19,8 +19,4 @@ export class TopicService {
   public getMainPids(ids: number[]): Promise<number[]> {
     return this.topicLib.getMainPids(ids);
   }
-
-  public test() {
-    return 'test';
-  }
 }
