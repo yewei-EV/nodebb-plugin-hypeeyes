@@ -5,4 +5,10 @@ export class Topic {
     topic = Object.assign(topic, Topic);
     return topic;
   }
+  firstImg: string;
+  firstCalendar: Date;
+  tid: number;
+  title: string;
+  slug: string;
+  titleRaw: string;
 }

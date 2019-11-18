@@ -1,5 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
 import { User } from './user';
+import { Principal } from './principal';
 
 export const CurPrincipal = createParamDecorator((data, req): User => {
   const uid = +req.uid;
@@ -7,5 +8,5 @@ export const CurPrincipal = createParamDecorator((data, req): User => {
   if (uid && loggedIn) {
     return req.session.principal;
   }
-  return null;
+  return new Principal();
 });
