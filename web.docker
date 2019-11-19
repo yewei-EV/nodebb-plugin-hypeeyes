@@ -1,6 +1,5 @@
 FROM node:lts
 WORKDIR /app
 COPY hypeeyes-web hypeeyes-web
-COPY hypeeyes-web/src/.dockerignore hypeeyes-web
 RUN cd hypeeyes-web && npm install @angular/cli && ./node_modules/.bin/ng build --prod --base-href=/hypeeyes/web/
 RUN rm -rf node_modules
