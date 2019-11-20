@@ -20,10 +20,12 @@
 FROM node:alpine
 ENV NODE_ENV=production daemon=false silent=false
 WORKDIR /app
-COPY hypeeyes-forum hypeeyes-forum
+COPY hypeeyes-forum/node_modules hypeeyes-forum/node_modules
+COPY hypeeyes-plugin/node_modules hypeeyes-plugin/node_modules
 COPY hypeeyes-plugin nodebb-plugin-hypeeyes
 COPY hypeeyes-theme nodebb-theme-hypeeyes
 COPY hypeeyes-web hypeeyes-web
+COPY hypeeyes-forum hypeeyes-forum
 RUN ln -s /app/hypeeyes-plugin hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN ln -s /app/hypeeyes-theme hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 EXPOSE 4567
