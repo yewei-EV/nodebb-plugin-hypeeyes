@@ -17,7 +17,7 @@
 #EXPOSE 4567
 #CMD ./hypeeyes-forum/nodebb start
 
-FROM node:alpine
+FROM node:12.13
 ENV NODE_ENV=production daemon=false silent=false
 WORKDIR /app
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
