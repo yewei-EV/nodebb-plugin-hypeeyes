@@ -20,8 +20,10 @@
 FROM node:alpine
 ENV NODE_ENV=production daemon=false silent=false
 WORKDIR /app
-COPY hypeeyes-forum/node_modules hypeeyes-forum/node_modules
-COPY hypeeyes-plugin/node_modules hypeeyes-plugin/node_modules
+COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
+RUN cd hypeeyes-forum && npm install --only=prod
+COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
+RUN cd hypeeyes-plugin && npm install --only=prod
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-theme hypeeyes-theme
 COPY hypeeyes-plugin hypeeyes-plugin
