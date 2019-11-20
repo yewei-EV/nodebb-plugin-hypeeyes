@@ -26,7 +26,9 @@ COPY hypeeyes-plugin nodebb-plugin-hypeeyes
 COPY hypeeyes-theme nodebb-theme-hypeeyes
 COPY hypeeyes-web hypeeyes-web
 COPY hypeeyes-forum hypeeyes-forum
+RUN rm -rf hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN ln -s /app/hypeeyes-plugin hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
+RUN rm -rf hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 RUN ln -s /app/hypeeyes-theme hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 EXPOSE 4567
 CMD ./hypeeyes-forum/nodebb start
