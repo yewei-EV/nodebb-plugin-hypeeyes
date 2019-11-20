@@ -21,9 +21,9 @@ FROM node:alpine
 ENV NODE_ENV=production daemon=false silent=false
 WORKDIR /app
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
-RUN cd hypeeyes-forum && npm install --only=prod
+RUN cd hypeeyes-forum && npm config set registry=http://registry.npm.taobao.org && npm install --only=prod
 COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
-RUN cd hypeeyes-plugin && npm install --only=prod
+RUN cd hypeeyes-plugin && npm config set registry=http://registry.npm.taobao.org && npm install --only=prod
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-theme hypeeyes-theme
 COPY hypeeyes-plugin hypeeyes-plugin
