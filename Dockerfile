@@ -33,7 +33,7 @@ RUN ln -s /app/hypeeyes-plugin hypeeyes-forum/node_modules/nodebb-plugin-hypeeye
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 RUN ln -s /app/hypeeyes-theme hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 RUN cp hypeeyes-forum/config-build.json hypeeyes-forum/config.json && ./hypeeyes-forum/nodebb build
-RUN cp hypeeyes-forum/config-production.json hypeeyes-forum/config.json
+#RUN cp hypeeyes-forum/config-production.json hypeeyes-forum/config.json
 RUN rm -rf hypeeyes-forum/config-build.json && rm -rf hypeeyes-forum/config-production.json
 EXPOSE 4567
 CMD ./hypeeyes-forum/nodebb start
