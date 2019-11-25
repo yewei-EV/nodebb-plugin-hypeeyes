@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import * as path from 'path';
-import * as urlUtil from 'url';
 
 export async function angularRoute(router: Router) {
   router.get('/hypeeyes/web*', (req, res) => {
