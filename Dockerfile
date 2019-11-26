@@ -13,6 +13,7 @@ RUN cd hypeeyes-web &&  ./node_modules/.bin/ng build --prod --aot --base-href=/h
 ENV NODE_ENV=production daemon=false silent=false
 COPY hypeeyes-theme hypeeyes-theme
 COPY hypeeyes-plugin hypeeyes-plugin
+RUN cd hypeeyes-plugin && npm run build 
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN ln -s /app/hypeeyes-plugin hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
