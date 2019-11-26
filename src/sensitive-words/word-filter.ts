@@ -115,6 +115,17 @@ export class WordFilter {
       let newWord = '';
       for (let j = i; j < txt.length; j++) {
         const word = txt.charAt(j);
+        if (word == 'h' || word == 'H') {
+          const next = txt.charAt(j + 1);
+          if (('t' == next || 'T' == next) && txt.substr(j, 7).toLowerCase() == 'http://') {
+            const start = j;
+            j += 7;
+            while (!this.isIgnoreWord(txt.charAt(j))) {
+              j ++;
+            }
+            newWord += txt.slice(start, j);
+          }
+        }
         if (this.isIgnoreWord(word)) {
           if (newWord !== '') {
             newWord += word;
