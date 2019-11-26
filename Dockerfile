@@ -1,5 +1,4 @@
 FROM node:12.13
-ENV NODE_ENV=production daemon=false silent=false
 WORKDIR /app
 RUN npm config set registry=http://registry.npm.taobao.org
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
@@ -11,6 +10,7 @@ RUN cd hypeeyes-web && npm install
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-web hypeeyes-web
 RUN cd hypeeyes-web &&  ./node_modules/.bin/ng build --prod --aot --base-href=/hypeeyes/web/
+ENV NODE_ENV=production daemon=false silent=false
 COPY hypeeyes-theme hypeeyes-theme
 COPY hypeeyes-plugin hypeeyes-plugin
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
