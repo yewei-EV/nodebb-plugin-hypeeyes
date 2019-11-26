@@ -27,7 +27,8 @@
     "rxjs": "^6.3.3",
     "typescript": "3.4.3",
     "@types/node": "11.13.4",
-    "typeorm": "^0.2.18"
+    "typeorm": "^0.2.18",
+    "mime-type": "latest"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
