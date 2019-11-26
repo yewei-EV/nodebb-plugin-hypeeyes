@@ -12,14 +12,17 @@ export async function angularRoute(router: Router) {
       js: 'text/javascript',
       json: 'application/json',
     };
-    let file = path.resolve('../hypeeyes-web/dist/hypeeyes-web/') + + url.substring(14);
-    if (fs.existsSync(file)) {
+    let newUrl = url.substring(13);
+    let file = path.resolve('../hypeeyes-web/dist/hypeeyes-web/') + newUrl;
+    if (fs.existsSync(file) && newUrl.length > 1) {
       contentType = mime.lookup(path.extname(file));
     } else {
       file = path.resolve('../hypeeyes-web/dist/hypeeyes-web/index.html');
     }
 
-    res.setHeader('Content-Type', contentType);
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+    }
     res.sendFile(file);
   });
 }
