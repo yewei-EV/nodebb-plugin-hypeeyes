@@ -7,7 +7,7 @@ RUN cd hypeeyes-forum && npm install --only=prod
 COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
 RUN cd hypeeyes-plugin && npm install --only=prod
 COPY hypeeyes-web/package.json hypeeyes-web/package.json
-RUN cd hypeeyes-web && npm install --only=prod
+RUN cd hypeeyes-web && npm install
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-web hypeeyes-web
 RUN cd hypeeyes-web &&  ./node_modules/.bin/ng build --prod --aot --base-href=/hypeeyes/web/
