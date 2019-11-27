@@ -11,6 +11,7 @@ type WordMap = Map<string, RecursiveMap>;
 export class WordFilter {
   private sensitiveWordsMap: WordMap;
   private regExp = new RegExp(/[^\S]/);
+  private regUrlExp = new RegExp(/[%0-9a-zA-Z/]/);
   private static wordFilter = null;
 
   private static getWordFilter() {
@@ -95,35 +96,42 @@ export class WordFilter {
   public initMap() {
     const data = fs.readFileSync(path.resolve(__dirname, '../../src/sensitive-words/sensitiveWords.txt'), 'utf8');
     const wordsArray = data.trim().split('|');
-    this.makeSensitiveMap(wordsArray)
+    this.makeSensitiveMap(wordsArray);
   }
 
   private isIgnoreWord(word: string) {
     return word.match(this.regExp);
   }
 
+  private isUrlWord(word: string) {
+    return word.match(this.regUrlExp);
+  }
+
   parseSensitiveWord(txt: string): string {
     if (!txt) {
       return txt;
     }
-    const _sensitiveWordsMap = this.sensitiveWordsMap;
     const words = [];
     let startIndex = 0;
     let matchStartIndex = 0;
     for (let i = 0; i < txt.length; i++) {
-      let currentMap: WordMap = _sensitiveWordsMap;
+      let currentMap: WordMap = this.sensitiveWordsMap;
       let newWord = '';
       for (let j = i; j < txt.length; j++) {
         const word = txt.charAt(j);
-        if (word == 'h' || word == 'H') {
+        if (word === 'h' || word === 'H') {
           const next = txt.charAt(j + 1);
-          if (('t' == next || 'T' == next) && txt.substr(j, 7).toLowerCase() == 'http://') {
+          if (('t' === next || 'T' === next) && (txt.substr(j, 7).toLowerCase() === 'http://' ||
+            txt.substr(j, 7).toLowerCase() === 'https:/' )) {
             const start = j;
             j += 7;
-            while (!this.isIgnoreWord(txt.charAt(j))) {
-              j ++;
+            while (this.isUrlWord(txt.charAt(j)) && j < txt.length) {
+              j++;
             }
             newWord += txt.slice(start, j);
+            j--;
+            i = j;
+            continue;
           }
         }
         if (this.isIgnoreWord(word)) {
@@ -134,7 +142,11 @@ export class WordFilter {
         }
         currentMap = currentMap.get(word);
         if (currentMap) {
-          newWord += '*';
+          if (newWord.endsWith('*')) {
+            newWord += '$';
+          } else {
+            newWord += '*';
+          }
           if (currentMap.get('finish')) {
             words.push(txt.substr(startIndex, matchStartIndex - startIndex - 1));
             words.push(newWord);
