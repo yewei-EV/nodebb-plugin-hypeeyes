@@ -11,7 +11,7 @@ type WordMap = Map<string, RecursiveMap>;
 export class WordFilter {
   private sensitiveWordsMap: WordMap;
   private regExp = new RegExp(/[^\S]/);
-  private regUrlExp = new RegExp(/[%0-9a-zA-Z/]/);
+  private regUrlExp = new RegExp(/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/);
   private static wordFilter = null;
 
   private static getWordFilter() {
