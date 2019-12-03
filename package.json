@@ -25,10 +25,10 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typescript": "3.4.3",
+    "typescript": "3.7.2",
     "@types/node": "11.13.4",
     "typeorm": "^0.2.18",
-    "mime-type": "latest"
+    "mime-types": "^2.1.25"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
