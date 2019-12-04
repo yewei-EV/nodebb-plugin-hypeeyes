@@ -119,6 +119,8 @@ export class WordFilter {
       let newWord = '';
       for (let j = i; j < txt.length; j++) {
         const word = txt.charAt(j);
+
+        // url
         if (word === 'h' || word === 'H') {
           const next = txt.charAt(j + 1);
           if (('t' === next || 'T' === next) && (txt.substr(j, 7).toLowerCase() === 'http://' ||
@@ -131,9 +133,33 @@ export class WordFilter {
             newWord += txt.slice(start, j);
             j--;
             i = j;
-            continue;
+            break;
           }
         }
+
+        // img or link
+        if (word === '(') {
+            if (txt.charAt(j - 1) === ']') {
+              let index = j - 2;
+              while (txt.charAt(index) !== '[' && index > 0 && j - index < 1000) {
+                index --;
+              }
+              if (index > 0 && j - index < 1000) {
+                index = j + 1;
+                while (txt.charAt(index) !== ')' && index < txt.length && index - j < 1000) {
+                  index ++;
+                }
+                if (index < txt.length && index - j < 1000) {
+                  words.push(txt.substr(startIndex, index - startIndex + 1));
+                  j = index + 1;
+                  i = j;
+                  startIndex = j;
+                  break;
+                }
+              }
+            }
+        }
+
         if (this.isIgnoreWord(word)) {
           if (newWord !== '') {
             newWord += word;
