@@ -6,14 +6,16 @@ import {Topic} from "../entities/topic/topic";
 import {Post} from "../entities/post/post";
 
 function convert(data) {
-  if (data instanceof Array) {
-    data = data.map(obj => convert(obj));
-  } else if (data.cid && data.parentCid){
-    data = Category.convert(data);
-  } else if (data.tid && data.cid) {
-    data = Topic.convert(data);
-  } else if (data.pid && data.tid) {
-    data = Post.convert(data);
+  if (data) {
+    if (data instanceof Array) {
+      data = data.map(obj => convert(obj));
+    } else if (data.cid && data.parentCid) {
+      data = Category.convert(data);
+    } else if (data.tid && data.cid) {
+      data = Topic.convert(data);
+    } else if (data.pid && data.tid) {
+      data = Post.convert(data);
+    }
   }
   return data;
 }

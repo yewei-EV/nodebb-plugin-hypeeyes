@@ -25,8 +25,8 @@ export class CategoryController {
     const pageable = new Pageable();
     pageable.start = +start;
     pageable.stop = +stop;
-    if (sort != SortType['most-posts']) {
-      sort = SortType['most-votes'];
+    if (sort != SortType['most_posts']) {
+      sort = SortType['most_votes'];
     }
     pageable.sort = sort;
     const uid = principal.uid;
@@ -61,9 +61,24 @@ export class CategoryController {
     return await this.categoryService.getAllCategories();
   }
 
-  @Get('/:cid/topics')
-  async getTopicIds(@Param('cid') cid: number): Promise<number[]> {
-    return await this.categoryService.getTopicIds(cid, 0, 4);
+  @Get('/:cid/allTopics')
+  async getAllTopics(@Query('start') start: number,
+            @Query('stop') stop: number,
+            @Query('sort') sort: SortType,
+            @Param('cid') cid: number,
+            @CurPrincipal() principal: Principal,
+  ): Promise<Topic[]> {
+    const pageable = new Pageable();
+    pageable.start = +start;
+    pageable.stop = +stop;
+    if (sort != SortType['most_posts']) {
+      sort = SortType['most_votes'];
+    }
+    pageable.sort = sort;
+    const uid = principal.uid;
+    const result: {topics: Topic[], nextStart: number} =
+            await this.categoryService.getCategoryTopicsInThisCategory({cid, uid, ...pageable});
+    return result.topics;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { Topic } from './topic';
 import { Post, PostService } from '../post/post.module';
@@ -6,6 +6,14 @@ import { Post, PostService } from '../post/post.module';
 @Controller('topics')
 export class TopicController {
   public constructor(private topicService: TopicService, private postService: PostService) {
+  }
+
+  @Get('byIds')
+  private async getByIds(@Query('id') ids: number[]): Promise<Topic[]> {
+    if (!Array.isArray(ids)) {
+      ids = [ids];
+    }
+    return await this.topicService.getByIds(ids, 0);
   }
 
   @Get(':id')

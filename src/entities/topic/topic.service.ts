@@ -17,6 +17,10 @@ export class TopicService {
     });
   }
 
+  public async getByIds(ids: number[], uid: number): Promise<Topic[]> {
+    return await this.topicLib.getTopics(ids, uid);
+  }
+
   public getMainPids(ids: number[]): Promise<number[]> {
     return this.topicLib.getMainPids(ids);
   }

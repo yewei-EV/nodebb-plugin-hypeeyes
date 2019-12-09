@@ -23,4 +23,8 @@ export class CategoryService {
   public getCategoryTopics(options: {cid: number, uid: number} & Pageable) {
     return this.categoryLib.getCategoryTopics(options);
   }
+
+  public getCategoryTopicsInThisCategory(options: {cid: number, uid: number} & Pageable) {
+    return this.categoryLib.getCategoryTopicsInThisCategory(options);
+  }
 }

@@ -1,8 +1,8 @@
 export enum SortType {
-   'most-posts' = 'most-posts',
-   'most-votes' = 'most-votes',
-   'newest-to-oldest' = 'newest-to-oldest',
-   'oldest-to-newest' = 'oldest-to-newest',
+   'most_posts' = 'most_posts',
+   'most_votes' = 'most_votes',
+   'newest_to_oldest' = 'newest_to_oldest',
+   'oldest_to_newest' = 'oldest_to_newest',
 }
 export class Pageable {
    start: number;
