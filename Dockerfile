@@ -21,5 +21,7 @@ RUN ln -s /app/hypeeyes-theme hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
 RUN cp hypeeyes-forum/config-build.json hypeeyes-forum/config.json && ./hypeeyes-forum/nodebb build
 RUN cp hypeeyes-forum/config-production.json hypeeyes-forum/config.json
 RUN rm -rf hypeeyes-forum/config-build.json && rm -rf hypeeyes-forum/config-production.json
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 EXPOSE 4567
 CMD ./hypeeyes-forum/nodebb start

@@ -43,7 +43,7 @@ export class CategoryController {
   ): Promise<Topic[]> {
     const topics: Topic[] = await this.get(start, stop, sort, cid, principal);
     const topicIds: number[] = topics.map(topic => topic.tid);
-    const mainPosts: Post[] = await this.topicService.getMainPosts(topicIds, 0);
+    const mainPosts: Post[] = await this.topicService.getMainPosts(topicIds, principal.uid);
     for (const post of mainPosts) {
       for (const topic of topics) {
         if (topic.tid === post.tid) {
