@@ -5,6 +5,8 @@ COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
 RUN cd hypeeyes-forum && npm install --only=prod
 COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
 RUN cd hypeeyes-plugin && npm install --only=prod
+COPY hypeeyes-theme/package.json hypeeyes-theme/package.json
+RUN cd hypeeyes-theme && npm install
 COPY hypeeyes-web/package.json hypeeyes-web/package.json
 RUN cd hypeeyes-web && npm install
 COPY hypeeyes-web hypeeyes-web
