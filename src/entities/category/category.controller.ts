@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category';
-import { Pageable, SortType } from "../../common/pageable";
+import { Pageable, SortType } from '../../common/pageable';
 import { CurPrincipal } from '../user/principal.decorator';
 import { Principal } from '../user/principal';
 import { Topic } from '../topic/topic';
@@ -41,7 +41,7 @@ export class CategoryController {
             @Param('cid') cid: number,
             @CurPrincipal() principal: Principal,
   ): Promise<Topic[]> {
-    const topics: Topic[] = await this.get(start, stop, sort, cid, principal);
+    const topics: Topic[] = await this.getAllTopics(start, stop, sort, cid, principal);
     const topicIds: number[] = topics.map(topic => topic.tid);
     const mainPosts: Post[] = await this.topicService.getMainPosts(topicIds, principal.uid);
     for (const post of mainPosts) {
