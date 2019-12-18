@@ -2,6 +2,7 @@ FROM node:12.13
 WORKDIR /app
 RUN npm config set registry=http://registry.npm.taobao.org
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
+COPY hypeeyes-forum/.npmrc hypeeyes-forum/.npmrc
 RUN cd hypeeyes-forum && npm install --only=prod
 COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
 RUN cd hypeeyes-plugin && npm install --only=prod
