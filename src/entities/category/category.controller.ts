@@ -50,6 +50,7 @@ export class CategoryController {
           const newPost: Post = Object.assign(new Post(), post);
           topic.firstImg = newPost.firstImg;
           topic.firstCalendar = newPost.fistCalendar;
+          topic.mainPost = newPost;
         }
       }
     }
