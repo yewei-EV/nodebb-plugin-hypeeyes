@@ -5,7 +5,9 @@ export class Topic {
     topic.postCount = topic.postcount;
     delete topic.postcount;
     topic = Object.assign(topic, Topic);
-    topic.mainPost = Post.convert(topic.mainPost);
+    if (topic.mainPost) {
+      topic.mainPost = Post.convert(topic.mainPost);
+    }
     return topic;
   }
   firstImg: string;
