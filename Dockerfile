@@ -2,7 +2,7 @@ FROM node:12.13
 WORKDIR /app
 RUN npm config set registry=http://registry.npm.taobao.org
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
-COPY hypeeyes-forum/.npmrc hypeeyes-forum/.npmrc
+COPY hypeeyes-forum/install/.npmrc hypeeyes-forum/.npmrc
 RUN cd hypeeyes-forum && npm install --only=prod
 COPY hypeeyes-plugin/package.json hypeeyes-plugin/package.json
 RUN cd hypeeyes-plugin && npm install --only=prod
@@ -16,7 +16,7 @@ ENV NODE_ENV=production daemon=false silent=false
 COPY hypeeyes-forum hypeeyes-forum
 COPY hypeeyes-theme hypeeyes-theme
 COPY hypeeyes-plugin hypeeyes-plugin
-RUN cd hypeeyes-plugin && npm run build 
+RUN cd hypeeyes-plugin && npm run build
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN ln -s /app/hypeeyes-plugin hypeeyes-forum/node_modules/nodebb-plugin-hypeeyes
 RUN rm -rf hypeeyes-forum/node_modules/nodebb-theme-hypeeyes
@@ -25,6 +25,7 @@ RUN cp hypeeyes-forum/config-build.json hypeeyes-forum/config.json && ./hypeeyes
 RUN cp hypeeyes-forum/config-production.json hypeeyes-forum/config.json
 RUN rm -rf hypeeyes-forum/config-build.json && rm -rf hypeeyes-forum/config-production.json
 ENV TZ=Asia/Shanghai
+ENV LANG C.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 EXPOSE 4567
 CMD ./hypeeyes-forum/nodebb start
