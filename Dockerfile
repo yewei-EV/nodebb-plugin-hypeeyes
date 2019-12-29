@@ -1,5 +1,7 @@
 FROM node:12.13
 WORKDIR /app
+COPY hypeeyes-plugin/fonts/pingfang /usr/share/fonts/truetype/pingfang
+RUN fc-cache -f
 RUN npm config set registry=http://registry.npm.taobao.org
 COPY hypeeyes-forum/install/package.json hypeeyes-forum/package.json
 COPY hypeeyes-forum/install/.npmrc hypeeyes-forum/.npmrc
