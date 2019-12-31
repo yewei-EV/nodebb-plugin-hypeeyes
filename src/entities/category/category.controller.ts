@@ -25,9 +25,6 @@ export class CategoryController {
     const pageable = new Pageable();
     pageable.start = +start;
     pageable.stop = +stop;
-    if (sort != SortType['most_posts']) {
-      sort = SortType['most_votes'];
-    }
     pageable.sort = sort;
     const uid = principal.uid;
     const result: {topics: Topic[], nextStart: number} = await this.categoryService.getCategoryTopics({cid, uid, ...pageable});
@@ -72,9 +69,6 @@ export class CategoryController {
     const pageable = new Pageable();
     pageable.start = +start;
     pageable.stop = +stop;
-    if (sort != SortType['most_posts']) {
-      sort = SortType['most_votes'];
-    }
     pageable.sort = sort;
     const uid = principal.uid;
     const result: {topics: Topic[], nextStart: number} =
