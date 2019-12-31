@@ -20,7 +20,7 @@ export class Post {
           this._firstImg = img;
           break;
         }
-      } while (!result);
+      } while (result);
     } else {
       img = this._firstImg;
     }
