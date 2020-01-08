@@ -8,15 +8,19 @@ export class Post {
   content: string;
   tid: number;
   get firstImg(): string {
-    let img = undefined;
+    let img = null;
     if (!this._firstImg) {
       const content = this.content;
-      const regexp = new RegExp(/<img[ ]+src="([^"]*)"/);
-      const result = regexp.exec(content);
-      if (result && result.length > 1) {
-        img = result[1];
-        this._firstImg = img;
-      }
+      const regexp = /<img[ ]+src="([^"]*)"/g;
+      let result;
+      do {
+        result = regexp.exec(content);
+        if (result && result.length > 1 && !result[1].includes('nodebb-plugin-emoji/emoji')) {
+          img = result[1];
+          this._firstImg = img;
+          break;
+        }
+      } while (result);
     } else {
       img = this._firstImg;
     }
