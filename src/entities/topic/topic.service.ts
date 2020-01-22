@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as topicLib from '@bbs/topics';
 import { Topic } from './topic';
 import { Post } from '../post/post';
+import {Pageable} from '../../common/pageable';
 
 @Injectable()
 export class TopicService {
@@ -27,5 +28,9 @@ export class TopicService {
 
   public getMainPosts(mainPids: number[], uid: number): Promise<Post[]> {
     return this.topicLib.getMainPosts(mainPids, uid);
+  }
+
+  public getRecentTopic(info: Pageable, cid: number[], uid: number) {
+    return this.topicLib.getSortedTopics({...info, cid, uid});
   }
 }

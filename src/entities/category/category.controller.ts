@@ -15,6 +15,31 @@ export class CategoryController {
   constructor(private categoryService: CategoryService, private topicService: TopicService, private postService: PostService) {
   }
 
+  @Get('/recentWithMainPostInfo')
+  async getRecentTopicsWithMainPostInfo(@Query('start') start: number,
+                                        @Query('stop') stop: number,
+                                        @Query('sort') sort: SortType,
+                                        @Query('cid') cid: number[],
+                                        @CurPrincipal() principal: Principal,
+  ): Promise<Topic[]> {
+    const topicsResponse: any = await this.topicService.getRecentTopic({start, stop, sort}, cid, principal.uid);
+    const topics: Topic[] = topicsResponse.topics;
+    const topicIds: number[] = topics.map(topic => topic.tid);
+    const mainPosts: Post[] = await this.topicService.getMainPosts(topicIds, principal.uid);
+    for (const post of mainPosts) {
+      for (const topic of topics) {
+        if (topic.tid === post.tid) {
+          const newPost: Post = Object.assign(new Post(), post);
+          topic.firstImg = newPost.firstImg;
+          topic.firstCalendar = newPost.fistCalendar;
+          topic.mainPost = newPost;
+        }
+      }
+    }
+    return topics;
+  }
+
+
   @Get('/:cid')
   async get(@Query('start') start: number,
             @Query('stop') stop: number,
