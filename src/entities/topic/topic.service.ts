@@ -28,4 +28,8 @@ export class TopicService {
   public getMainPosts(mainPids: number[], uid: number): Promise<Post[]> {
     return this.topicLib.getMainPosts(mainPids, uid);
   }
+
+  public getTopicWithPosts(topic: Topic, set: any, uid: number, start: number, stop: number, reverse: boolean): Promise<Topic> {
+    return this.topicLib.getTopicWithPosts(topic, set, uid, start, stop, reverse);
+  }
 }
