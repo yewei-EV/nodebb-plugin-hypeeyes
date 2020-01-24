@@ -47,6 +47,9 @@ export class TopicController {
     const set = sort === 'most_votes' ? 'tid:' + tid + ':posts:votes' : 'tid:' + tid + ':posts';
     const reverse = sort === 'newest_to_oldest' || sort === 'most_votes';
     const topic = await this.topicService.getById(tid, principal.uid);
+    if (!topic) {
+      return null;
+    }
     const pids = await this.topicService.getMainPids([tid]);
     const posts = await this.postService.getPostByIds([pids[0]], principal.uid);
     if (posts.length > 0) {
