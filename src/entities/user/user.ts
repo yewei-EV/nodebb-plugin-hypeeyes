@@ -1,5 +1,5 @@
 export class User {
-  uid: number;
+  uid = 0;
   email: string;
   emailConfirmed: boolean;
   isEmailConfirmSent: boolean;
