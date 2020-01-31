@@ -15,6 +15,7 @@ export class Topic {
   tid: number;
   title: string;
   mainPost: Post;
+  posts: Post[];
   slug: string;
   titleRaw: string;
 }

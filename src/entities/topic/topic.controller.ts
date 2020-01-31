@@ -50,11 +50,9 @@ export class TopicController {
     if (!topic) {
       return null;
     }
-    const pids = await this.topicService.getMainPids([tid]);
-    const posts = await this.postService.getPostByIds([pids[0]], principal.uid);
-    if (posts.length > 0) {
-      topic.mainPost = posts[0];
-    }
-    return await this.topicService.getTopicWithPosts(topic, set, principal.uid, start, stop, reverse);
+    await this.topicService.getTopicWithPosts(topic, set, principal.uid, start, stop, reverse);
+    topic.mainPost = topic.posts[0];
+    topic.posts = topic.posts.slice(1);
+    return topic;
   }
 }

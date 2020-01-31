@@ -6,7 +6,7 @@ import { Post } from './post';
 export class PostService {
   private postLib = postLib;
 
-  public getPostByIds(ids: number[], uid: number): Promise<Post[]> {
-    return this.postLib.getPostsByPids(ids, uid);
+  public async getPostByIds(ids: number[], uid: number): Promise<Post[]> {
+    return await this.postLib.getPostsByPids(ids, uid);
   }
 }
