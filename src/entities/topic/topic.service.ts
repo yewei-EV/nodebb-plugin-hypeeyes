@@ -3,6 +3,7 @@ import * as topicLib from '@bbs/topics';
 import { Topic } from './topic';
 import { Post } from '../post/post';
 import {Pageable} from '../../common/pageable';
+import {Filter} from '@bbs/topics';
 
 @Injectable()
 export class TopicService {
@@ -34,7 +35,7 @@ export class TopicService {
     return this.topicLib.getTopicWithPosts(topic, set, uid, start, stop, reverse);
   }
 
-  public getRecentTopic(info: Pageable, cid: number[], uid: number) {
-    return this.topicLib.getSortedTopics({...info, cid, uid});
+  public getRecentTopic(cids: number[], uid: number, start: number, stop: number, filter: Filter) {
+    return this.topicLib.getRecentTopics(cids, uid, start, stop, filter);
   }
 }
