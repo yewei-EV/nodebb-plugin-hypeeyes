@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { CurPrincipal } from './principal.decorator';
 import { Principal } from './principal';
 import { User } from './user';
@@ -10,11 +10,20 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('cur-user')
-  private async getCurUser(@CurPrincipal() curPrincipal: Principal): Promise<User> {
+  async getCurUser(@CurPrincipal() curPrincipal: Principal): Promise<User> {
     if (curPrincipal) {
       const uid = curPrincipal.uid;
       return await this.userService.getUserById(uid);
     }
     return null;
+  }
+
+  @Get('following')
+  async getFollowing(@Query('start') start: number,
+                     @Query('stop') stop: number,
+                     @CurPrincipal() curPrincipal: Principal): Promise<User[]> {
+    start = +start;
+    stop = +stop;
+    return this.userService.getFollowing(curPrincipal.uid, start, stop);
   }
 }

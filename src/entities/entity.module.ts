@@ -5,6 +5,7 @@ import { PostModule } from './post/post.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from './config/config.module';
+import {QueryModule} from './query/query.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from './config/config.module';
     NavigationModule,
     UserModule,
     ConfigModule,
+    QueryModule,
   ],
 })
 export class EntityModule {}

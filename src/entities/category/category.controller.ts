@@ -15,19 +15,8 @@ export class CategoryController {
   constructor(private categoryService: CategoryService, private topicService: TopicService, private postService: PostService) {
   }
 
-  @Get('/recentWithMainPostInfo')
-  async getRecentTopicsWithMainPostInfo(@Query('start') start: number,
-                                        @Query('stop') stop: number,
-                                        @Query('sort') sort: SortType,
-                                        @Query('cid') cids: number[],
-                                        @CurPrincipal() principal: Principal,
-  ): Promise<Topic[]> {
-    const topicsResponse: any = await this.topicService.getRecentTopic(cids, principal.uid, start, stop, '');
-    const topics: Topic[] = topicsResponse.topics;
-    return await this.getTopicsWithMainPosts(topics, principal.uid);
-  }
 
-  @Get('/:cid')
+  @Get(':cid')
   async get(@Query('start') start: number,
             @Query('stop') stop: number,
             @Query('sort') sort: SortType,
@@ -43,44 +32,28 @@ export class CategoryController {
     return result.topics;
   }
 
-  @Get('/:cid/withMainPostInfo')
+  @Get(':cid/withMainPostInfo')
   async getTopicsWithMainPostInfo(@Query('start') start: number,
-            @Query('stop') stop: number,
-            @Query('sort') sort: SortType,
-            @Param('cid') cid: number,
-            @CurPrincipal() principal: Principal,
+                                  @Query('stop') stop: number,
+                                  @Query('sort') sort: SortType,
+                                  @Param('cid') cid: number,
+                                  @CurPrincipal() principal: Principal,
   ): Promise<Topic[]> {
     const topics: Topic[] = await this.getAllTopics(start, stop, sort, cid, principal);
-    return await this.getTopicsWithMainPosts(topics, principal.uid);
+    return await this.topicService.getTopicsWithMainPosts(topics, principal.uid);
   }
 
-  private async getTopicsWithMainPosts(topics: Topic[], uid: number): Promise<Topic[]> {
-    const topicIds: number[] = topics.map(topic => topic.tid);
-    const mainPosts: Post[] = await this.topicService.getMainPosts(topicIds, uid);
-    for (const post of mainPosts) {
-      for (const topic of topics) {
-        if (topic.tid === post.tid) {
-          const newPost: Post = Object.assign(new Post(), post);
-          topic.firstImg = newPost.firstImg;
-          topic.firstCalendar = newPost.fistCalendar;
-          topic.mainPost = newPost;
-        }
-      }
-    }
-    return topics;
-  }
-
-  @Get('/')
+  @Get('')
   async getAll(): Promise<Category[]> {
     return await this.categoryService.getAllCategories();
   }
 
-  @Get('/:cid/allTopics')
+  @Get(':cid/allTopics')
   async getAllTopics(@Query('start') start: number,
-            @Query('stop') stop: number,
-            @Query('sort') sort: SortType,
-            @Param('cid') cid: number,
-            @CurPrincipal() principal: Principal,
+                     @Query('stop') stop: number,
+                     @Query('sort') sort: SortType,
+                     @Param('cid') cid: number,
+                     @CurPrincipal() principal: Principal,
   ): Promise<Topic[]> {
     const pageable = new Pageable();
     pageable.start = +start;

@@ -5,3 +5,4 @@ export function isAdministrator(uid: number): Promise<boolean>;
 export function isGlobalModerator(uid: number): Promise<boolean>;
 export function isModeratorOfAnyCategory(uid: number): Promise<boolean>;
 export function getUserData(uid: number): Promise<User>;
+export function getFollowing(uid: number, start: number, stop: number): Promise<User[]>;

@@ -27,4 +27,7 @@ export class UserService {
     const user = await this.userLib.getUserData(uid);
     return User.convert(user);
   }
+  async getFollowing(uid: number, start: number, stop: number): Promise<User[]> {
+    return await this.userLib.getFollowing(uid, start, stop);
+  }
 }

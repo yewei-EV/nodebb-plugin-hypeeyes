@@ -8,15 +8,8 @@ import { SortType } from '../../common/pageable';
 
 @Controller('topics')
 export class TopicController {
-  public constructor(private topicService: TopicService, private postService: PostService) {
-  }
-
-  @Get('byIds')
-  private async getByIds(@Query('id') ids: number[], @CurPrincipal() principal: Principal): Promise<Topic[]> {
-    if (!Array.isArray(ids)) {
-      ids = [ids];
-    }
-    return await this.topicService.getByIds(ids, principal.uid);
+  public constructor(private topicService: TopicService,
+                     private postService: PostService) {
   }
 
   @Get(':id')
@@ -39,8 +32,7 @@ export class TopicController {
                              @Query('stop') stop: number,
                              @Query('sort') sort: SortType,
                              @Param('id') tid: number,
-                             @CurPrincipal() principal: Principal
-  ): Promise<Topic> {
+                             @CurPrincipal() principal: Principal): Promise<Topic> {
     start = +start;
     stop = +stop;
     tid = +tid;
