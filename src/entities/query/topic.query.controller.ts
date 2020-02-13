@@ -4,10 +4,12 @@ import {Principal} from '../user/principal';
 import {Topic} from '../topic/topic';
 import {TopicService} from '../topic/topic.service';
 import {CategoryService} from '../category/category.service';
+import {UserService} from '../user/user.service';
+import {User} from '../user/user';
 
 @Controller('queries/topics')
 export class TopicQueryController {
-  constructor(private topicService: TopicService, private categoryService: CategoryService) {
+  constructor(private topicService: TopicService, private categoryService: CategoryService, private userService: UserService) {
   }
   @Get('byIds')
   private async getByIds(@Query('id') ids: number[], @CurPrincipal() principal: Principal): Promise<Topic[]> {
@@ -17,20 +19,21 @@ export class TopicQueryController {
     return await this.topicService.getByIds(ids, principal.uid);
   }
 
-  @Get('byCidUid')
+  @Get('byFollowingAndCid')
   private async getByCidUid(@Query('cid') cidList: number[],
-                            @Query('uid') uidList: number[],
                             @Query('start') start: number,
                             @Query('stop') stop: number,
                             @CurPrincipal() principal: Principal): Promise<Topic[]> {
+    if (!cidList || !principal.uid) {
+      return [];
+    }
     if (!Array.isArray(cidList)) {
       cidList = [cidList];
     }
-    if (!Array.isArray(uidList)) {
-      uidList = [uidList];
-    }
+    const curUser: User = await this.userService.getUserById(principal.uid);
+    const userList: User[] = await this.userService.getFollowing(principal.uid, 0, curUser.followingCount - 1);
     cidList = cidList.map(cid => +cid);
-    uidList = uidList.map(uid => +uid);
+    const uidList = userList.map(user => +user.uid);
     start = +start;
     stop = +stop;
     return await this.categoryService.getTopicByCidUid(cidList, uidList, start, stop, principal.uid);

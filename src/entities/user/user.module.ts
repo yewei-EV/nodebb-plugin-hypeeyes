@@ -9,5 +9,6 @@ import { PrivilegeService } from '../privilege/privilege.service';
     UserService,
     PrivilegeService,
   ],
+  exports: [UserService],
 })
 export class UserModule {}

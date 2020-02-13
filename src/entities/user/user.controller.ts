@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common';
 import { CurPrincipal } from './principal.decorator';
 import { Principal } from './principal';
 import { User } from './user';
@@ -25,5 +25,11 @@ export class UserController {
     start = +start;
     stop = +stop;
     return this.userService.getFollowing(curPrincipal.uid, start, stop);
+  }
+
+  @Get(':uid')
+  async getByUid(@Param('uid') uid: number): Promise<User> {
+    uid = +uid;
+    return await this.userService.getUserById(uid);
   }
 }

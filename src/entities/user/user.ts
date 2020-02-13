@@ -4,6 +4,7 @@ export class User {
   emailConfirmed: boolean;
   isEmailConfirmSent: boolean;
   signature: string;
+  followingCount: number;
 
   static convert(user) {
     user.emailConfirmed = user['email:confirmed'] === 1;
