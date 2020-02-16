@@ -3,10 +3,11 @@ import * as userLib from '@bbs/user';
 import { Principal } from './principal';
 import { PrivilegeService } from '../privilege/privilege.service';
 import { User } from './user';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private privilegeService: PrivilegeService) {}
+  constructor(private privilegeService: PrivilegeService, private userRepository: UserRepository) {}
 
   private userLib = userLib;
   async getPrincipalById(uid: number) {
@@ -29,5 +30,11 @@ export class UserService {
   }
   async getFollowing(uid: number, start: number, stop: number): Promise<User[]> {
     return await this.userLib.getFollowing(uid, start, stop);
+  }
+  async increaseReputation(uid: number, value: number): Promise<number> {
+    return await this.userRepository.incrementReputation(uid, value);
+  }
+  async getReputation(uid: number): Promise<number> {
+    return await this.userLib.getUserField(uid, 'reputation');
   }
 }
