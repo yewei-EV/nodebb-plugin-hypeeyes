@@ -36,7 +36,7 @@ export class UserController {
   @Get(':uid/reputation')
   async increaseReputation(@Param('uid') uid: number, @Query('reputation') reputation: number) {
     reputation = +reputation;
-    if (reputation <= 0) {
+    if (reputation === 0) {
       return await this.userService.getReputation(uid);
     }
     return await this.userService.increaseReputation(uid, reputation);
