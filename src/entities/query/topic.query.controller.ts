@@ -20,10 +20,10 @@ export class TopicQueryController {
   }
 
   @Get('byFollowingAndCid')
-  private async getByCidUid(@Query('cid') cidList: number[],
-                            @Query('start') start: number,
-                            @Query('stop') stop: number,
-                            @CurPrincipal() principal: Principal): Promise<Topic[]> {
+  private async getByFollowingAndCid(@Query('cid') cidList: number[],
+                                     @Query('start') start: number,
+                                     @Query('stop') stop: number,
+                                     @CurPrincipal() principal: Principal): Promise<Topic[]> {
     if (!cidList || !principal.uid) {
       return [];
     }
@@ -37,6 +37,23 @@ export class TopicQueryController {
     start = +start;
     stop = +stop;
     return await this.categoryService.getTopicByCidUid(cidList, uidList, start, stop, principal.uid);
+  }
+
+  @Get('myTopics')
+  private async getMyTopics(@Query('cid') cidList: number[],
+                            @Query('start') start: number,
+                            @Query('stop') stop: number,
+                            @CurPrincipal() principal: Principal): Promise<Topic[]> {
+    if (!cidList || !principal.uid) {
+      return [];
+    }
+    if (!Array.isArray(cidList)) {
+      cidList = [cidList];
+    }
+    cidList = cidList.map(cid => +cid);
+    start = +start;
+    stop = +stop;
+    return await this.categoryService.getTopicByCidUid(cidList, [principal.uid], start, stop, principal.uid);
   }
 
 }
