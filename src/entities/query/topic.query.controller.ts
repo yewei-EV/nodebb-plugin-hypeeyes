@@ -6,6 +6,7 @@ import {TopicService} from '../topic/topic.service';
 import {CategoryService} from '../category/category.service';
 import {UserService} from '../user/user.service';
 import {User} from '../user/user';
+import {SortType} from '../../common/pageable';
 
 @Controller('queries/topics')
 export class TopicQueryController {
@@ -54,6 +55,23 @@ export class TopicQueryController {
     start = +start;
     stop = +stop;
     return await this.categoryService.getTopicByCidUid(cidList, [principal.uid], start, stop, principal.uid);
+  }
+
+  @Get('byCidList')
+  private async getByCidList(@Query('cid') cidList: number[],
+                             @Query('start') start: number,
+                             @Query('stop') stop: number,
+                             @CurPrincipal() principal: Principal): Promise<Topic[]> {
+    if (!cidList) {
+      return [];
+    }
+    if (!Array.isArray(cidList)) {
+      cidList = [cidList];
+    }
+    cidList = cidList.map(cid => +cid);
+    start = +start;
+    stop = +stop;
+    return await this.categoryService.getTopicByCidList(cidList, principal.uid, {start, stop, sort: SortType.newest_to_oldest});
   }
 
 }

@@ -28,7 +28,8 @@
     "typescript": "3.7.2",
     "@types/node": "11.13.4",
     "typeorm": "^0.2.18",
-    "mime-types": "^2.1.25"
+    "mime-types": "^2.1.25",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",

@@ -15,7 +15,6 @@ export class CategoryController {
   constructor(private categoryService: CategoryService, private topicService: TopicService, private postService: PostService) {
   }
 
-
   @Get(':cid')
   async get(@Query('start') start: number,
             @Query('stop') stop: number,
@@ -60,9 +59,7 @@ export class CategoryController {
     pageable.stop = +stop;
     pageable.sort = sort;
     const uid = principal.uid;
-    const result: {topics: Topic[], nextStart: number} =
-            await this.categoryService.getCategoryTopicsInThisCategory({cid, uid, ...pageable});
-    return result.topics;
+    return await this.categoryService.getTopicByCidList([cid], uid, pageable);
   }
 
 }

@@ -7,3 +7,8 @@ export function isModeratorOfAnyCategory(uid: number): Promise<boolean>;
 export function getUserData(uid: number): Promise<User>;
 export function getFollowing(uid: number, start: number, stop: number): Promise<User[]>;
 export function incrementUserFieldBy(uid: number, field: string, value: number): Promise<number>;
+
+declare class Blocks {
+  filter(uid: number, ... $n: any[]): Promise<any>;
+}
+export const blocks: Blocks;

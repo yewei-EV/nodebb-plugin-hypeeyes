@@ -5,6 +5,7 @@ import {Pageable} from '../../common/pageable';
 import {Topic} from '../topic/topic';
 import {CategoryRepository} from './category.repository';
 import * as topicLib from '@bbs/topics';
+import * as user from '@bbs/user';
 import {TopicService} from '../topic/topic.service';
 
 @Injectable()
@@ -32,23 +33,32 @@ export class CategoryService {
     return this.categoryLib.getCategoryTopics(options);
   }
 
-  public getCategoryTopicsInThisCategory(options: {cid: number, uid: number} & Pageable) {
-    return this.categoryLib.getCategoryTopicsInThisCategory(options);
-  }
-
-  public async getChildrenCidList(cid: number): Promise<number[]> {
+  public async getCidListByParent(cid: number): Promise<number[]> {
     return await this.categoryLib.getChildrenCids(cid);
   }
 
-  public async getTopicByCidUid(cidList: number[], uidList, start: number, stop: number, uid: number) {
+  private async getCidListByParents(cidList: number[]): Promise<number[]> {
     const childrenIdList = [];
     for (const cid of cidList) {
       childrenIdList.push(cid);
-      const list = await this.getChildrenCidList(cid);
+      const list = await this.getCidListByParent(cid);
       list.map(id => childrenIdList.push(id));
     }
+    return childrenIdList;
+  }
+
+  public async getTopicByCidUid(cidList: number[], uidList: number[], start: number, stop: number, uid: number) {
+    const childrenIdList = await this.getCidListByParents(cidList);
     const tidList: number[] = await this.categoryRepository.getTopicIdListByCidUid(childrenIdList, uidList, start, stop);
     const topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
+    return await this.topicService.getTopicsWithMainPosts(topics, uid);
+  }
+
+  public async getTopicByCidList(cidList: number[], uid: number, pageable: Pageable) {
+    const childrenIdList = await this.getCidListByParents(cidList);
+    const tidList: number[] = await this.categoryRepository.getTopicIdListByCidList(childrenIdList, pageable);
+    let topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
+    topics = await user.blocks.filter(uid, topics);
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
   }
 }
