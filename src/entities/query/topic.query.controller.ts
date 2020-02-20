@@ -61,6 +61,7 @@ export class TopicQueryController {
   private async getByCidList(@Query('cid') cidList: number[],
                              @Query('start') start: number,
                              @Query('stop') stop: number,
+                             @Query('sort') sort: SortType,
                              @CurPrincipal() principal: Principal): Promise<Topic[]> {
     if (!cidList) {
       return [];
@@ -71,7 +72,7 @@ export class TopicQueryController {
     cidList = cidList.map(cid => +cid);
     start = +start;
     stop = +stop;
-    return await this.categoryService.getTopicByCidList(cidList, principal.uid, {start, stop, sort: SortType.newest_to_oldest});
+    return await this.categoryService.getTopicByCidList(cidList, principal.uid, {start, stop, sort});
   }
 
 }
