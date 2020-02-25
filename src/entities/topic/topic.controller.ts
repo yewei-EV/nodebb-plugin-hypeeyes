@@ -1,4 +1,4 @@
-import { Controller, Get, Post as POST, Param, Query, Body } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { Topic } from './topic';
 import { Post, PostService } from '../post/post.module';
@@ -46,14 +46,5 @@ export class TopicController {
     topic.mainPost = topic.posts[0];
     topic.posts = topic.posts.slice(1);
     return topic;
-  }
-
-  @POST(':id/report')
-  private async report(
-    @Param('id') id: number,
-    @Body('reason') reason: string,
-    @CurPrincipal() principal: Principal) {
-    id = +id;
-    await this.postService.createFlags(principal.uid, 'user', id, reason);
   }
 }
