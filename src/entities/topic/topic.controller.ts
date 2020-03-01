@@ -5,11 +5,13 @@ import { Post, PostService } from '../post/post.module';
 import { CurPrincipal } from '../user/principal.decorator';
 import { Principal } from '../user/principal';
 import { SortType } from '../../common/pageable';
+import {UserService} from '../user/user.service';
 
 @Controller('topics')
 export class TopicController {
   public constructor(private topicService: TopicService,
-                     private postService: PostService) {
+                     private postService: PostService,
+                     private userService: UserService) {
   }
 
   @Get(':id')
@@ -45,6 +47,7 @@ export class TopicController {
     await this.topicService.getTopicWithPosts(topic, set, principal.uid, start, stop, reverse);
     topic.mainPost = topic.posts[0];
     topic.posts = topic.posts.slice(1);
+    topic.isFollowingPoster = await this.userService.isFollowing(principal.uid, topic.user.uid);
     return topic;
   }
 }

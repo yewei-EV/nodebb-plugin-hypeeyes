@@ -37,4 +37,7 @@ export class UserService {
   async getReputation(uid: number): Promise<number> {
     return await this.userLib.getUserField(uid, 'reputation');
   }
+  async isFollowing(uid: number, followedUid: number) {
+    return await this.userLib.isFollowing(uid, followedUid);
+  }
 }

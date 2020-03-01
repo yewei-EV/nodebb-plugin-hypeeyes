@@ -1,4 +1,5 @@
 import {Post} from '../post/post';
+import {User} from '../user/user';
 
 export class Topic {
   static convert(topic: any): Topic {
@@ -18,4 +19,8 @@ export class Topic {
   posts: Post[];
   slug: string;
   titleRaw: string;
+
+  user: User;
+  // add this property for app
+  isFollowingPoster: boolean;
 }
