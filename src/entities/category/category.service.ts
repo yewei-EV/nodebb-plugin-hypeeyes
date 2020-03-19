@@ -54,11 +54,13 @@ export class CategoryService {
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
   }
 
-  public async getTopicByCidList(cidList: number[], uid: number, pageable: Pageable) {
+  public async getTopicByCidList(cidList: number[], uid: number, pageable: Pageable, withUserFilter: boolean = false) {
     const childrenIdList = await this.getCidListByParents(cidList);
     const tidList: number[] = await this.categoryRepository.getTopicIdListByCidList(childrenIdList, pageable);
     let topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
-    topics = await user.blocks.filter(uid, topics);
+    if (withUserFilter) {
+      topics = await user.blocks.filter(uid, topics);
+    }
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
   }
 }
