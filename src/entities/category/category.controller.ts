@@ -59,7 +59,7 @@ export class CategoryController {
     pageable.stop = +stop;
     pageable.sort = sort;
     const uid = principal.uid;
-    return await this.categoryService.getTopicByCidList([cid], uid, pageable);
+    return await this.categoryService.getTopicByCidList([cid], 1, pageable);
   }
 
 }

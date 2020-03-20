@@ -5,7 +5,6 @@ import {Pageable} from '../../common/pageable';
 import {Topic} from '../topic/topic';
 import {CategoryRepository} from './category.repository';
 import * as topicLib from '@bbs/topics';
-import * as user from '@bbs/user';
 import {TopicService} from '../topic/topic.service';
 
 @Injectable()
@@ -54,13 +53,10 @@ export class CategoryService {
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
   }
 
-  public async getTopicByCidList(cidList: number[], uid: number, pageable: Pageable, withUserFilter: boolean = false) {
+  public async getTopicByCidList(cidList: number[], uid: number, pageable: Pageable) {
     const childrenIdList = await this.getCidListByParents(cidList);
     const tidList: number[] = await this.categoryRepository.getTopicIdListByCidList(childrenIdList, pageable);
-    let topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
-    if (withUserFilter) {
-      topics = await user.blocks.filter(uid, topics);
-    }
+    const topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
   }
 }
