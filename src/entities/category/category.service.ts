@@ -5,7 +5,9 @@ import {Pageable} from '../../common/pageable';
 import {Topic} from '../topic/topic';
 import {CategoryRepository} from './category.repository';
 import * as topicLib from '@bbs/topics';
+import * as searchLib from '@bbs/search';
 import {TopicService} from '../topic/topic.service';
+import {SearchParam} from '@bbs/search';
 
 @Injectable()
 export class CategoryService {
@@ -15,6 +17,7 @@ export class CategoryService {
 
   private categoryLib = categoryLib;
   private topicLib = topicLib;
+  private searchLib = searchLib;
 
   public getCategoryById(cid: number, offset: number, pageSize: number): Promise<Category> {
     return this.categoryLib.getCategoryById({ cid, start: offset, stop: offset + pageSize - 1 });
@@ -58,5 +61,11 @@ export class CategoryService {
     const tidList: number[] = await this.categoryRepository.getTopicIdListByCidList(childrenIdList, pageable);
     const topics: Topic[] = await this.topicLib.getTopics(tidList, uid);
     return await this.topicService.getTopicsWithMainPosts(topics, uid);
+  }
+
+  public async search(key: string, page: number, itemsPerPage: number, uid) {
+    const searchParam: SearchParam = {matchWords: 'any', query: key, page, itemsPerPage, uid, searchIn: 'titlesposts',
+      sortBy: 'relevance'};
+    return await this.searchLib.search(searchParam);
   }
 }

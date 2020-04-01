@@ -75,4 +75,16 @@ export class TopicQueryController {
     return await this.categoryService.getTopicByCidList(cidList, principal.uid, {start, stop, sort});
   }
 
+  @Get('search')
+  private async search(@Query('key') key: string,
+                       @Query('page') page: number,
+                       @Query('itemsPerPage') itemsPerPage: number,
+                       @CurPrincipal() principal: Principal) {
+    page = +page;
+    itemsPerPage = +itemsPerPage;
+    const result: any = await this.categoryService.search(key, page, itemsPerPage, principal.uid);
+    const topics: Topic[] = result.posts.map(post => post.topic);
+    return await this.topicService.getTopicsWithMainPosts(topics, principal.uid);
+  }
+
 }
