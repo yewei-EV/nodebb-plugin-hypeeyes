@@ -1,9 +1,11 @@
 import {Post} from '../post/post';
 import {User} from '../user/user';
+import validator from 'validator';
 
 export class Topic {
   static convert(topic: any): Topic {
     topic.postCount = topic.postcount;
+    topic.thumb = validator.unescape(topic.thumb);
     delete topic.postcount;
     topic = Object.assign(topic, Topic);
     if (topic.mainPost) {
@@ -15,6 +17,7 @@ export class Topic {
   firstCalendar: Date;
   tid: number;
   title: string;
+  thumb: string;
   mainPost: Post;
   posts: Post[];
   slug: string;

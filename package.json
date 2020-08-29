@@ -22,14 +22,15 @@
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
     "@nestjs/platform-express": "^6.0.0",
+    "@types/node": "11.13.4",
+    "lodash": "^4.17.15",
+    "mime-types": "^2.1.25",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typescript": "3.7.2",
-    "@types/node": "11.13.4",
     "typeorm": "^0.2.18",
-    "mime-types": "^2.1.25",
-    "lodash": "^4.17.15"
+    "typescript": "3.7.2",
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
